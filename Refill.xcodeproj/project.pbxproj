@@ -6,11 +6,62 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		23D8B3F12F8E84DA00A61B2D /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D8B3F02F8E84DA00A61B2D /* WidgetKit.framework */; };
+		23D8B3F32F8E84DA00A61B2D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23D8B3F22F8E84DA00A61B2D /* SwiftUI.framework */; };
+		23D8B3FE2F8E84DB00A61B2D /* RefillWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 23D8B3EE2F8E84DA00A61B2D /* RefillWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		23D8B3FC2F8E84DB00A61B2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23E7917C2F8E4E0A0037B501 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23D8B3ED2F8E84DA00A61B2D;
+			remoteInfo = RefillWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23D8B3FF2F8E84DB00A61B2D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				23D8B3FE2F8E84DB00A61B2D /* RefillWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		23D8B3EE2F8E84DA00A61B2D /* RefillWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RefillWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		23D8B3F02F8E84DA00A61B2D /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		23D8B3F22F8E84DA00A61B2D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		23E791842F8E4E0A0037B501 /* Refill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Refill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		23D8B4022F8E84DB00A61B2D /* Exceptions for "RefillWidget" folder in "RefillWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 23D8B3ED2F8E84DA00A61B2D /* RefillWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		23D8B3F42F8E84DA00A61B2D /* RefillWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				23D8B4022F8E84DB00A61B2D /* Exceptions for "RefillWidget" folder in "RefillWidgetExtension" target */,
+			);
+			path = RefillWidget;
+			sourceTree = "<group>";
+		};
 		23E791862F8E4E0A0037B501 /* Refill */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Refill;
@@ -19,6 +70,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		23D8B3EB2F8E84DA00A61B2D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23D8B3F32F8E84DA00A61B2D /* SwiftUI.framework in Frameworks */,
+				23D8B3F12F8E84DA00A61B2D /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23E791812F8E4E0A0037B501 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -29,10 +89,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23D8B3EF2F8E84DA00A61B2D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				23D8B3F02F8E84DA00A61B2D /* WidgetKit.framework */,
+				23D8B3F22F8E84DA00A61B2D /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		23E7917B2F8E4E0A0037B501 = {
 			isa = PBXGroup;
 			children = (
 				23E791862F8E4E0A0037B501 /* Refill */,
+				23D8B3F42F8E84DA00A61B2D /* RefillWidget */,
+				23D8B3EF2F8E84DA00A61B2D /* Frameworks */,
 				23E791852F8E4E0A0037B501 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				23E791842F8E4E0A0037B501 /* Refill.app */,
+				23D8B3EE2F8E84DA00A61B2D /* RefillWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +120,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		23D8B3ED2F8E84DA00A61B2D /* RefillWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23D8B4032F8E84DB00A61B2D /* Build configuration list for PBXNativeTarget "RefillWidgetExtension" */;
+			buildPhases = (
+				23D8B3EA2F8E84DA00A61B2D /* Sources */,
+				23D8B3EB2F8E84DA00A61B2D /* Frameworks */,
+				23D8B3EC2F8E84DA00A61B2D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				23D8B3F42F8E84DA00A61B2D /* RefillWidget */,
+			);
+			name = RefillWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = RefillWidgetExtension;
+			productReference = 23D8B3EE2F8E84DA00A61B2D /* RefillWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		23E791832F8E4E0A0037B501 /* Refill */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 23E7918F2F8E4E0B0037B501 /* Build configuration list for PBXNativeTarget "Refill" */;
@@ -55,10 +149,12 @@
 				23E791802F8E4E0A0037B501 /* Sources */,
 				23E791812F8E4E0A0037B501 /* Frameworks */,
 				23E791822F8E4E0A0037B501 /* Resources */,
+				23D8B3FF2F8E84DB00A61B2D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				23D8B3FD2F8E84DB00A61B2D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				23E791862F8E4E0A0037B501 /* Refill */,
@@ -80,6 +176,9 @@
 				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2640;
 				TargetAttributes = {
+					23D8B3ED2F8E84DA00A61B2D = {
+						CreatedOnToolsVersion = 26.4;
+					};
 					23E791832F8E4E0A0037B501 = {
 						CreatedOnToolsVersion = 26.4;
 					};
@@ -100,11 +199,19 @@
 			projectRoot = "";
 			targets = (
 				23E791832F8E4E0A0037B501 /* Refill */,
+				23D8B3ED2F8E84DA00A61B2D /* RefillWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		23D8B3EC2F8E84DA00A61B2D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23E791822F8E4E0A0037B501 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +222,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		23D8B3EA2F8E84DA00A61B2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		23E791802F8E4E0A0037B501 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +238,83 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		23D8B3FD2F8E84DB00A61B2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23D8B3ED2F8E84DA00A61B2D /* RefillWidgetExtension */;
+			targetProxy = 23D8B3FC2F8E84DB00A61B2D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		23D8B4002F8E84DB00A61B2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 3VSP57JFX5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RefillWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RefillWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.yourhero.Refill.RefillWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		23D8B4012F8E84DB00A61B2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = 3VSP57JFX5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RefillWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RefillWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = cn.yourhero.Refill.RefillWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		23E7918D2F8E4E0B0037B501 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -270,12 +460,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.yourhero.Refill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -303,18 +497,31 @@
 				PRODUCT_BUNDLE_IDENTIFIER = cn.yourhero.Refill;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		23D8B4032F8E84DB00A61B2D /* Build configuration list for PBXNativeTarget "RefillWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23D8B4002F8E84DB00A61B2D /* Debug */,
+				23D8B4012F8E84DB00A61B2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		23E7917F2F8E4E0A0037B501 /* Build configuration list for PBXProject "Refill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
