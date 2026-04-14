@@ -56,12 +56,7 @@ struct RefillWidgetEntryView : View {
         case .accessoryInline:
             AccessoryInlineView(entry: entry)
         default:
-            VStack {
-                Text("Time:")
-                Text(entry.date, style: .time)
-                Text("Emoji:")
-                Text(entry.emoji)
-            }
+            EmptyView()
         }
     }
 }
@@ -74,9 +69,6 @@ struct RefillWidget: Widget {
             RefillWidgetEntryView(entry: entry)
         }
         .supportedFamilies([
-            .systemSmall,
-            .systemMedium,
-            .systemLarge,
             .accessoryCircular,
             .accessoryRectangular,
             .accessoryInline
@@ -120,9 +112,8 @@ struct AccessoryInlineView: View {
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .accessoryCircular) {
     RefillWidget()
 } timeline: {
     SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
 }
