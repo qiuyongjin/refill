@@ -67,6 +67,7 @@ struct RefillWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             RefillWidgetEntryView(entry: entry)
+                .containerBackground(.fill.tertiary, for: .widget)
         }
         .supportedFamilies([
             .accessoryCircular,
@@ -83,7 +84,7 @@ struct AccessoryCircularView: View {
 
     var body: some View {
         Gauge(value: 0.7) {
-            Text("Refill")
+          Image(systemName: "battery.75")  // 或其他相关图标
         } currentValueLabel: {
             Text("70%")
         }
@@ -96,9 +97,9 @@ struct AccessoryRectangularView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text("Refill")
+            Text("70% Remaining")
                 .font(.headline)
-            Text("70% remaining")
+            Text("剩余2小时10分钟")
                 .font(.caption)
         }
     }
@@ -113,7 +114,7 @@ struct AccessoryInlineView: View {
 }
 
 #Preview(as: .accessoryRectangular) {
-    RefillWidget()
+  RefillWidget()
 } timeline: {
     SimpleEntry(date: .now, emoji: "😀")
 }
