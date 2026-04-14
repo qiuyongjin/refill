@@ -47,7 +47,7 @@ struct ContentView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Coding Plan 用量")
+            .navigationTitle("Coding Plan Usage")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
