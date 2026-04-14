@@ -31,14 +31,14 @@ struct ContentView: View {
                             title: "5小时用量",
                             used: usage.currentIntervalUsageCount,
                             total: usage.currentIntervalTotalCount,
-                            remainSeconds: usage.remainsTime / 1000
+                            remainSeconds: usage.remainsTime / 1000,
                         )
 
                         UsageCardView(
                             title: "一周用量",
                             used: usage.currentWeeklyUsageCount,
                             total: usage.currentWeeklyTotalCount,
-                            remainSeconds: usage.weeklyRemainsTime / 1000
+                            remainSeconds: usage.weeklyRemainsTime / 1000,
                         )
                     } else if isLoading {
                         ProgressView()

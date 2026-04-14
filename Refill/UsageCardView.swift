@@ -14,8 +14,8 @@ struct UsageCardView: View {
     let remainSeconds: Int
 
     private var progress: Double {
-        guard total > 0 else { return 0 }
-        return Double(used) / Double(total)
+        guard total > 0, used > 0 else { return 0 }
+        return Double(total - used) / Double(used)
     }
 
     private var percentText: String {
