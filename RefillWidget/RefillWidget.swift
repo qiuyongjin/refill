@@ -172,7 +172,7 @@ struct AccessoryRectangularView: View {
     var body: some View {
         if let usage = entry.usage {
             VStack(alignment: .leading, spacing: 2) {
-                Text("\(Int((1 - usage.usagePercent) * 100))% Remaining")
+                Text("\(Int(usage.usagePercent * 100))% Used")
                     .font(.headline)
                 Text("剩余\(usage.remainsHours)小时\(usage.remainsMinutes)分钟")
                     .font(.caption)
