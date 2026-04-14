@@ -72,6 +72,26 @@ struct ModelRemain: Codable {
     }
 }
 
+// MARK: - Helper
+private func formatDuration(seconds: Int) -> String {
+    if seconds < 60 {
+        return "\(seconds) 秒"
+    } else if seconds < 3600 {
+        let minutes = seconds / 60
+        let secs = seconds % 60
+        return "\(minutes) 分钟 \(secs) 秒"
+    } else if seconds < 86400 {
+        let hours = seconds / 3600
+        let mins = (seconds % 3600) / 60
+        return "\(hours) 小时 \(mins) 分钟"
+    } else {
+        let days = seconds / 86400
+        let hours = (seconds % 86400) / 3600
+        let mins = (seconds % 3600) / 60
+        return "\(days) 天 \(hours) 小时 \(mins) 分钟"
+    }
+}
+
 // MARK: - Provider
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
@@ -176,7 +196,7 @@ struct AccessoryRectangularView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text(String(format: "%.2f", usage.usagePercent * 100) + "% Used")
                     .font(.headline)
-                Text("剩余\(usage.remainsHours)小时\(usage.remainsMinutes)分钟")
+                Text("剩余 \(formatDuration(seconds: usage.remainsTime / 1000))")
                     .font(.caption)
             }
         } else {
