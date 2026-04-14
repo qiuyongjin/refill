@@ -87,8 +87,8 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         var entries: [SimpleEntry] = []
 
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+        for minuteOffset in stride(from: 0, to: 15, by: 3) {
+            let entryDate = Calendar.current.date(byAdding: .minute, value: minuteOffset, to: currentDate)!
             let entry = SimpleEntry(date: entryDate, usage: usage)
             entries.append(entry)
         }
