@@ -10,7 +10,7 @@ import SwiftUI
 
 @main
 struct RefillWidgetBundle: WidgetBundle {
-    var body: some Widget {
-        RefillWidget()
-    }
+  var body: some Widget {
+    RefillWidget()
+  }
 }
