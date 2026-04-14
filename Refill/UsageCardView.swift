@@ -19,7 +19,7 @@ struct UsageCardView: View {
     }
 
     private var percentText: String {
-        "\(Int(progress * 100))%"
+        String(format: "%.2f%%", progress * 100)
     }
 
     private var usedText: String {
