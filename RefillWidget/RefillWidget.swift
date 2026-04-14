@@ -53,7 +53,7 @@ struct ModelRemain: Codable {
 
     var usagePercent: Double {
         guard currentIntervalTotalCount > 0 else { return 0 }
-        return Double(currentIntervalUsageCount) / Double(currentIntervalTotalCount)
+        return (Double(currentIntervalTotalCount) - Double(currentIntervalUsageCount)) / Double(currentIntervalUsageCount)
     }
 
     var weeklyUsagePercent: Double {
@@ -151,7 +151,7 @@ struct AccessoryCircularView: View {
             Gauge(value: 1 - usage.usagePercent) {
                 Image(systemName: "battery.75")
             } currentValueLabel: {
-                Text("\(Int((1 - usage.usagePercent) * 100))%")
+                Text(String(format: "%.2f", (usage.usagePercent) * 100) + "%")
             }
             .gaugeStyle(.accessoryCircular)
         } else {
@@ -172,7 +172,7 @@ struct AccessoryRectangularView: View {
     var body: some View {
         if let usage = entry.usage {
             VStack(alignment: .leading, spacing: 2) {
-                Text("\(Int(usage.usagePercent * 100))% Used")
+                Text(String(format: "%.2f", usage.usagePercent * 100) + "% Used")
                     .font(.headline)
                 Text("剩余\(usage.remainsHours)小时\(usage.remainsMinutes)分钟")
                     .font(.caption)
@@ -194,7 +194,7 @@ struct AccessoryInlineView: View {
 
     var body: some View {
         if let usage = entry.usage {
-            Text("Refill: \(Int((1 - usage.usagePercent) * 100))%")
+            Text("Refill: \(String(format: "%.2f", (1 - usage.usagePercent) * 100))%")
         } else {
             Text("Refill: --")
         }
@@ -204,5 +204,17 @@ struct AccessoryInlineView: View {
 #Preview(as: .accessoryRectangular) {
     RefillWidget()
 } timeline: {
-    SimpleEntry(date: .now, usage: nil)
+    SimpleEntry(date: .now, usage: ModelRemain(
+        remainsTime: 1368946,
+        currentIntervalTotalCount: 4500,
+        currentIntervalUsageCount: 4291,
+        modelName: "Pro",
+        currentWeeklyTotalCount: 500,
+        currentWeeklyUsageCount: 150,
+        weeklyRemainsTime: 259200000,
+        startTime: nil,
+        endTime: nil,
+        weeklyStartTime: nil,
+        weeklyEndTime: nil
+    ))
 }
