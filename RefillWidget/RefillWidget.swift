@@ -112,7 +112,7 @@ struct AccessoryInlineView: View {
     }
 }
 
-#Preview(as: .accessoryCircular) {
+#Preview(as: .accessoryRectangular) {
     RefillWidget()
 } timeline: {
     SimpleEntry(date: .now, emoji: "😀")
