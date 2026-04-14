@@ -10,7 +10,8 @@ import Foundation
 final class UserDefaultsAPIKeyStore {
     static let shared = UserDefaultsAPIKeyStore()
     private let key = "api_key"
-    private let defaults = UserDefaults.standard
+    private let appGroupID = "group.cn.yourhero.Refill"
+    private lazy var defaults = UserDefaults(suiteName: appGroupID) ?? UserDefaults.standard
 
     private init() {}
 

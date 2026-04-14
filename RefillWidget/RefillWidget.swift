@@ -8,41 +8,103 @@
 import WidgetKit
 import SwiftUI
 
+// MARK: - Shared Data Store
+final class SharedDataStore {
+    static let shared = SharedDataStore()
+    private let appGroupID = "group.cn.yourhero.Refill"
+    private let usageKey = "cached_usage"
+    private lazy var defaults = UserDefaults(suiteName: appGroupID) ?? UserDefaults.standard
+
+    private init() {}
+
+    func loadUsage() -> ModelRemain? {
+        guard let data = defaults.data(forKey: usageKey) else { return nil }
+        return try? JSONDecoder().decode(ModelRemain.self, from: data)
+    }
+}
+
+// MARK: - Model (duplicated for widget target)
+struct ModelRemain: Codable {
+    let remainsTime: Int
+    let currentIntervalTotalCount: Int
+    let currentIntervalUsageCount: Int
+    let modelName: String
+    let currentWeeklyTotalCount: Int
+    let currentWeeklyUsageCount: Int
+    let weeklyRemainsTime: Int
+    let startTime: Int?
+    let endTime: Int?
+    let weeklyStartTime: Int?
+    let weeklyEndTime: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case remainsTime = "remains_time"
+        case currentIntervalTotalCount = "current_interval_total_count"
+        case currentIntervalUsageCount = "current_interval_usage_count"
+        case modelName = "model_name"
+        case currentWeeklyTotalCount = "current_weekly_total_count"
+        case currentWeeklyUsageCount = "current_weekly_usage_count"
+        case weeklyRemainsTime = "weekly_remains_time"
+        case startTime = "start_time"
+        case endTime = "end_time"
+        case weeklyStartTime = "weekly_start_time"
+        case weeklyEndTime = "weekly_end_time"
+    }
+
+    var usagePercent: Double {
+        guard currentIntervalTotalCount > 0 else { return 0 }
+        return Double(currentIntervalUsageCount) / Double(currentIntervalTotalCount)
+    }
+
+    var weeklyUsagePercent: Double {
+        guard currentWeeklyTotalCount > 0 else { return 0 }
+        return Double(currentWeeklyUsageCount) / Double(currentWeeklyTotalCount)
+    }
+
+    var remainsHours: Int {
+        remainsTime / 3600000
+    }
+
+    var remainsMinutes: Int {
+        (remainsTime % 3600000) / 60000
+    }
+}
+
+// MARK: - Provider
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+        SimpleEntry(date: Date(), usage: nil)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+        let usage = SharedDataStore.shared.loadUsage()
+        let entry = SimpleEntry(date: Date(), usage: usage)
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        let usage = SharedDataStore.shared.loadUsage()
+        let currentDate = Date()
         var entries: [SimpleEntry] = []
 
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
+            let entry = SimpleEntry(date: entryDate, usage: usage)
             entries.append(entry)
         }
 
         let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
 }
 
+// MARK: - Entry
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let emoji: String
+    let usage: ModelRemain?
 }
 
+// MARK: - Widget Entry View
 struct RefillWidgetEntryView : View {
     @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
@@ -61,6 +123,7 @@ struct RefillWidgetEntryView : View {
     }
 }
 
+// MARK: - Widget
 struct RefillWidget: Widget {
     let kind: String = "RefillWidget"
 
@@ -74,47 +137,72 @@ struct RefillWidget: Widget {
             .accessoryRectangular,
             .accessoryInline
         ])
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Coding Plan")
+        .description("显示 Coding Plan 用量")
     }
 }
 
+// MARK: - Circular View
 struct AccessoryCircularView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        Gauge(value: 0.7) {
-          Image(systemName: "battery.75")  // 或其他相关图标
-        } currentValueLabel: {
-            Text("70%")
+        if let usage = entry.usage {
+            Gauge(value: 1 - usage.usagePercent) {
+                Image(systemName: "battery.75")
+            } currentValueLabel: {
+                Text("\(Int((1 - usage.usagePercent) * 100))%")
+            }
+            .gaugeStyle(.accessoryCircular)
+        } else {
+            Gauge(value: 0) {
+                Image(systemName: "battery.0")
+            } currentValueLabel: {
+                Text("--")
+            }
+            .gaugeStyle(.accessoryCircular)
         }
-        .gaugeStyle(.accessoryCircular)
     }
 }
 
+// MARK: - Rectangular View
 struct AccessoryRectangularView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text("70% Remaining")
-                .font(.headline)
-            Text("剩余2小时10分钟")
-                .font(.caption)
+        if let usage = entry.usage {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(Int((1 - usage.usagePercent) * 100))% Remaining")
+                    .font(.headline)
+                Text("剩余\(usage.remainsHours)小时\(usage.remainsMinutes)分钟")
+                    .font(.caption)
+            }
+        } else {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("暂无数据")
+                    .font(.headline)
+                Text("请打开 App 刷新")
+                    .font(.caption)
+            }
         }
     }
 }
 
+// MARK: - Inline View
 struct AccessoryInlineView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text("Refill: 70%")
+        if let usage = entry.usage {
+            Text("Refill: \(Int((1 - usage.usagePercent) * 100))%")
+        } else {
+            Text("Refill: --")
+        }
     }
 }
 
 #Preview(as: .accessoryRectangular) {
-  RefillWidget()
+    RefillWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
+    SimpleEntry(date: .now, usage: nil)
 }

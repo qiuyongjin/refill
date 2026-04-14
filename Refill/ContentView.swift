@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct ContentView: View {
     @State private var hourlyUsage: ModelRemain?
@@ -14,6 +15,7 @@ struct ContentView: View {
     @State private var showingSettings = false
 
     private let service = CodingPlanService()
+    private let sharedStore = SharedDataStore.shared
 
     var body: some View {
         NavigationStack {
@@ -85,6 +87,8 @@ struct ContentView: View {
         switch await service.fetchUsage() {
         case .success(let data):
             hourlyUsage = data
+            sharedStore.saveUsage(data)
+            WidgetCenter.shared.reloadAllTimelines()
         case .failure(let error):
             switch error {
             case .networkError:
