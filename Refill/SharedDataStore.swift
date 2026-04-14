@@ -19,7 +19,6 @@ final class SharedDataStore {
     func saveUsage(_ usage: ModelRemain) {
         if let data = try? JSONEncoder().encode(usage) {
             defaults.set(data, forKey: usageKey)
-          let ad = try? JSONDecoder().decode(ModelRemain.self, from: data)
         }
     }
 
