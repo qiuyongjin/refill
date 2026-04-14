@@ -34,11 +34,18 @@ struct UsageCardView: View {
         if seconds < 60 {
             return "\(seconds) 秒"
         } else if seconds < 3600 {
-            return "\(seconds / 60) 分钟"
+            let minutes = seconds / 60
+            let secs = seconds % 60
+            return "\(minutes) 分钟 \(secs) 秒"
         } else if seconds < 86400 {
-            return "\(seconds / 3600) 小时"
+            let hours = seconds / 3600
+            let mins = (seconds % 3600) / 60
+            return "\(hours) 小时 \(mins) 分钟"
         } else {
-            return "\(seconds / 86400) 天"
+            let days = seconds / 86400
+            let hours = (seconds % 86400) / 3600
+            let mins = (seconds % 3600) / 60
+            return "\(days) 天 \(hours) 小时 \(mins) 分钟"
         }
     }
 
