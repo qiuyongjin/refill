@@ -53,12 +53,14 @@ struct ModelRemain: Codable {
 
     var usagePercent: Double {
         guard currentIntervalTotalCount > 0 else { return 0 }
-        return (Double(currentIntervalTotalCount) - Double(currentIntervalUsageCount)) / Double(currentIntervalUsageCount)
+        let used = currentIntervalTotalCount - currentIntervalUsageCount
+        return Double(used) / Double(currentIntervalTotalCount)
     }
 
     var weeklyUsagePercent: Double {
         guard currentWeeklyTotalCount > 0 else { return 0 }
-        return Double(currentWeeklyUsageCount) / Double(currentWeeklyTotalCount)
+        let used = currentWeeklyTotalCount - currentWeeklyUsageCount
+        return Double(used) / Double(currentWeeklyTotalCount)
     }
 
     var remainsHours: Int {
@@ -207,7 +209,7 @@ struct AccessoryInlineView: View {
     SimpleEntry(date: .now, usage: ModelRemain(
         remainsTime: 1368946,
         currentIntervalTotalCount: 4500,
-        currentIntervalUsageCount: 4291,
+        currentIntervalUsageCount: 4403,
         modelName: "Pro",
         currentWeeklyTotalCount: 500,
         currentWeeklyUsageCount: 150,
