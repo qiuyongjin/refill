@@ -44,15 +44,24 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct RefillWidgetEntryView : View {
+    @Environment(\.widgetFamily) var family
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
+        switch family {
+        case .accessoryCircular:
+            AccessoryCircularView(entry: entry)
+        case .accessoryRectangular:
+            AccessoryRectangularView(entry: entry)
+        case .accessoryInline:
+            AccessoryInlineView(entry: entry)
+        default:
+            VStack {
+                Text("Time:")
+                Text(entry.date, style: .time)
+                Text("Emoji:")
+                Text(entry.emoji)
+            }
         }
     }
 }
@@ -62,17 +71,52 @@ struct RefillWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                RefillWidgetEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                RefillWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
+            RefillWidgetEntryView(entry: entry)
         }
+        .supportedFamilies([
+            .systemSmall,
+            .systemMedium,
+            .systemLarge,
+            .accessoryCircular,
+            .accessoryRectangular,
+            .accessoryInline
+        ])
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
+    }
+}
+
+struct AccessoryCircularView: View {
+    var entry: Provider.Entry
+
+    var body: some View {
+        Gauge(value: 0.7) {
+            Text("Refill")
+        } currentValueLabel: {
+            Text("70%")
+        }
+        .gaugeStyle(.accessoryCircular)
+    }
+}
+
+struct AccessoryRectangularView: View {
+    var entry: Provider.Entry
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("Refill")
+                .font(.headline)
+            Text("70% remaining")
+                .font(.caption)
+        }
+    }
+}
+
+struct AccessoryInlineView: View {
+    var entry: Provider.Entry
+
+    var body: some View {
+        Text("Refill: 70%")
     }
 }
 
