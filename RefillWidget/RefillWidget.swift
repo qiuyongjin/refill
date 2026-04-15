@@ -21,6 +21,35 @@ final class SharedDataStore {
     guard let data = defaults.data(forKey: usageKey) else { return nil }
     return try? JSONDecoder().decode(ModelRemain.self, from: data)
   }
+  
+  func saveUsage(_ usage: ModelRemain) {
+    if let data = try? JSONEncoder().encode(usage) {
+      defaults.set(data, forKey: usageKey)
+    }
+  }
+}
+
+// MARK: - API Key Store (duplicated for widget target)
+final class UserDefaultsAPIKeyStore {
+  static let shared = UserDefaultsAPIKeyStore()
+  private let key = "api_key"
+  private let appGroupID = "group.cn.yourhero.Refill"
+  private lazy var defaults = UserDefaults(suiteName: appGroupID) ?? UserDefaults.standard
+  
+  private init() {}
+  
+  func get() -> String {
+    defaults.string(forKey: key) ?? ""
+  }
+}
+
+// MARK: - Response Model
+struct CodingPlanResponse: Codable {
+  let modelRemains: [ModelRemain]
+  
+  enum CodingKeys: String, CodingKey {
+    case modelRemains = "model_remains"
+  }
 }
 
 // MARK: - Model (duplicated for widget target)
@@ -100,23 +129,39 @@ struct Provider: TimelineProvider {
   
   func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
     let usage = SharedDataStore.shared.loadUsage()
-    let entry = SimpleEntry(date: Date(), usage: usage)
-    completion(entry)
+    completion(SimpleEntry(date: Date(), usage: usage))
   }
   
   func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    let usage = SharedDataStore.shared.loadUsage()
-    let currentDate = Date()
-    var entries: [SimpleEntry] = []
+    let apiKey = UserDefaultsAPIKeyStore.shared.get()
+    let service = WidgetCodingPlanService(apiKey: apiKey)
     
-    for minuteOffset in stride(from: 0, to: 15, by: 3) {
-      let entryDate = Calendar.current.date(byAdding: .minute, value: minuteOffset, to: currentDate)!
-      let entry = SimpleEntry(date: entryDate, usage: usage)
-      entries.append(entry)
+    Task {
+      let result = await service.fetchUsage()
+      let currentDate = Date()
+      let entry: SimpleEntry
+      let policy: TimelineReloadPolicy
+      
+      switch result {
+        case .success(let usage):
+          SharedDataStore.shared.saveUsage(usage)
+          entry = SimpleEntry(date: currentDate, usage: usage)
+          policy = .after(Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!)
+          
+        case .failure:
+          let cached = SharedDataStore.shared.loadUsage()
+          entry = SimpleEntry(date: currentDate, usage: cached)
+          
+          if apiKey.isEmpty {
+            policy = .after(Calendar.current.date(byAdding: .minute, value: 30, to: currentDate)!)
+          } else {
+            policy = .after(Calendar.current.date(byAdding: .minute, value: 3, to: currentDate)!)
+          }
+      }
+      
+      let timeline = Timeline(entries: [entry], policy: policy)
+      completion(timeline)
     }
-    
-    let timeline = Timeline(entries: entries, policy: .atEnd)
-    completion(timeline)
   }
 }
 
@@ -139,6 +184,8 @@ struct RefillWidgetEntryView : View {
         AccessoryRectangularView(entry: entry)
       case .accessoryInline:
         AccessoryInlineView(entry: entry)
+      case .systemSmall:
+        SystemSmallView(entry: entry)
       default:
         EmptyView()
     }
@@ -157,7 +204,8 @@ struct RefillWidget: Widget {
     .supportedFamilies([
       .accessoryCircular,
       .accessoryRectangular,
-      .accessoryInline
+      .accessoryInline,
+      .systemSmall
     ])
     .configurationDisplayName("Coding Plan")
     .description("显示 Coding Plan 用量")
@@ -221,6 +269,87 @@ struct AccessoryInlineView: View {
       Text("Refill: --")
     }
   }
+}
+
+// MARK: - System Small View
+struct SystemSmallView: View {
+  var entry: Provider.Entry
+  
+  var body: some View {
+    if let usage = entry.usage {
+      VStack(alignment: .leading, spacing: 6) {
+        Text("Coding Plan Usage")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+        
+        Text("\(Int(usage.usagePercent * 100))%")
+          .font(.system(size: 40, weight: .bold, design: .rounded))
+          .foregroundStyle(.primary)
+          .minimumScaleFactor(0.6)
+        
+        Spacer()
+        
+        GeometryReader { geometry in
+          ZStack(alignment: .leading) {
+            Rectangle()
+              .fill(Color.gray.opacity(0.2))
+            
+            Rectangle()
+              .fill(Color.green)
+              .frame(width: geometry.size.width * usage.usagePercent)
+          }
+        }
+        .frame(height: 8)
+        .clipShape(RoundedRectangle(cornerRadius: 4))
+        
+        Text("剩余 \(formatDuration(seconds: usage.remainsTime / 1000))")
+          .font(.caption2)
+          .foregroundStyle(.secondary)
+      }
+    } else {
+      VStack(alignment: .leading, spacing: 4) {
+        Text("Coding Plan")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+        
+        Text("--")
+          .font(.system(size: 40, weight: .bold, design: .rounded))
+          .foregroundStyle(.secondary)
+        
+        Text("剩余可用")
+          .font(.caption2)
+          .foregroundStyle(.secondary)
+        
+        Spacer()
+        
+        ProgressView(value: 0)
+          .tint(.gray)
+        
+        Text("请打开 App 刷新")
+          .font(.caption2)
+          .foregroundStyle(.secondary)
+      }
+      .padding()
+    }
+  }
+}
+
+#Preview(as: .systemSmall) {
+  RefillWidget()
+} timeline: {
+  SimpleEntry(date: .now, usage: ModelRemain(
+    remainsTime: 1368946,
+    currentIntervalTotalCount: 4500,
+    currentIntervalUsageCount: 2250,
+    modelName: "Pro",
+    currentWeeklyTotalCount: 500,
+    currentWeeklyUsageCount: 150,
+    weeklyRemainsTime: 259200000,
+    startTime: nil,
+    endTime: nil,
+    weeklyStartTime: nil,
+    weeklyEndTime: nil
+  ))
 }
 
 #Preview(as: .accessoryRectangular) {
