@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import WidgetKit
 
 final class SharedDataStore {
   static let shared = SharedDataStore()

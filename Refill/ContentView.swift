@@ -95,7 +95,7 @@ struct ContentView: View {
             errorMessage = "网络错误，请检查网络连接"
           case .decodingError:
             errorMessage = "数据解析错误"
-          case .invalidURL, .noData:
+          case .noData:
             errorMessage = "数据异常"
         }
     }
