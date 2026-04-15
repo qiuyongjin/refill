@@ -9,6 +9,7 @@ import SwiftUI
 import WidgetKit
 
 struct ContentView: View {
+  @Environment(\.scenePhase) private var scenePhase
   @State private var hourlyUsage: ModelRemain?
   @State private var isLoading = false
   @State private var errorMessage: String?
@@ -77,6 +78,11 @@ struct ContentView: View {
     }
     .task {
       await fetchData()
+    }
+    .onChange(of: scenePhase) { oldPhase, newPhase in
+      if newPhase == .active && oldPhase != .active {
+        Task { await fetchData() }
+      }
     }
   }
   
