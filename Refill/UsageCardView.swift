@@ -62,8 +62,19 @@ struct UsageCardView: View {
         .font(.system(.title2, design: .monospaced))
         .fontWeight(.semibold)
 
-      ProgressView(value: progress)
-        .tint(.blue)
+      GeometryReader { geometry in
+        ZStack(alignment: .leading) {
+          RoundedRectangle(cornerRadius: 4)
+            .fill(Color.gray.opacity(0.3))
+
+          RoundedRectangle(cornerRadius: 4)
+            .fill(Color.blue)
+            .frame(width: max(geometry.size.width * progress, 12))
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+        }
+      }
+      .frame(height: 12)
+      .clipShape(RoundedRectangle(cornerRadius: 6))
 
       HStack {
         Text(usedText)
