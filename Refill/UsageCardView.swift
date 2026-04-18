@@ -36,20 +36,20 @@ struct UsageCardView: View {
   
   private func formatDuration(seconds: Int) -> String {
     if seconds < 60 {
-      return "\(seconds) 秒"
+      return "\(seconds) sec"
     } else if seconds < 3600 {
       let minutes = seconds / 60
       let secs = seconds % 60
-      return "\(minutes) 分钟 \(secs) 秒"
+      return "\(minutes) min \(secs) sec"
     } else if seconds < 86400 {
       let hours = seconds / 3600
       let mins = (seconds % 3600) / 60
-      return "\(hours) 小时 \(mins) 分钟"
+      return "\(hours) hr \(mins) min"
     } else {
       let days = seconds / 86400
       let hours = (seconds % 86400) / 3600
       let mins = (seconds % 3600) / 60
-      return "\(days) 天 \(hours) 小时 \(mins) 分钟"
+      return "\(days) day \(hours) hr \(mins) min"
     }
   }
   
@@ -69,12 +69,12 @@ struct UsageCardView: View {
         .font(.caption)
         .foregroundStyle(.secondary)
       
-      Text("剩余 \(remainText)")
+      Text("Remaining: \(remainText)")
         .font(.caption)
         .foregroundStyle(.secondary)
     }
     .padding()
-    .background(Color(.systemGray6))
+    .background(.ultraThinMaterial)
     .cornerRadius(12)
   }
 }
