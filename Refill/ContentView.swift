@@ -31,14 +31,14 @@ struct ContentView: View {
           
           if let usage = hourlyUsage {
             UsageCardView(
-              title: "5小时用量",
+              title: "5-Hour Usage",
               used: usage.currentIntervalTotalCount - usage.currentIntervalUsageCount,
               total: usage.currentIntervalTotalCount,
               remainSeconds: usage.remainsTime / 1000,
             )
             
             UsageCardView(
-              title: "一周用量",
+              title: "Weekly Usage",
               used: usage.currentWeeklyTotalCount - usage.currentWeeklyUsageCount,
               total: usage.currentWeeklyTotalCount,
               remainSeconds: usage.weeklyRemainsTime / 1000,
