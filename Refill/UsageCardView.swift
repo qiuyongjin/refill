@@ -58,14 +58,14 @@ struct UsageCardView: View {
       Text(title)
         .font(.headline)
       
-      Text(usedText)
+      Text(percentText)
         .font(.system(.title2, design: .monospaced))
         .fontWeight(.semibold)
-      
+
       ProgressView(value: progress)
         .tint(.blue)
-      
-      Text(percentText)
+
+      Text(usedText)
         .font(.caption)
         .foregroundStyle(.secondary)
       
