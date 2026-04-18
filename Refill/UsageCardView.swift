@@ -65,13 +65,15 @@ struct UsageCardView: View {
       ProgressView(value: progress)
         .tint(.blue)
 
-      Text(usedText)
-        .font(.caption)
-        .foregroundStyle(.secondary)
-      
-      Text("Remaining: \(remainText)")
-        .font(.caption)
-        .foregroundStyle(.secondary)
+      HStack {
+        Text(usedText)
+
+        Spacer()
+
+        Text("Resets in \(remainText)")
+      }
+      .font(.subheadline)
+      .foregroundStyle(.secondary)
     }
     .padding()
     .background(.ultraThinMaterial)
