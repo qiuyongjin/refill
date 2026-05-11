@@ -21,7 +21,7 @@ struct CodingPlanService {
     self.apiKey = apiKey
   }
   
-  func fetchUsage() async -> Result<ModelRemain, CodingPlanServiceError> {
+  func fetchUsage() async -> Result<CodingPlanResponse, CodingPlanServiceError> {
     var request = URLRequest(url: url)
     request.httpMethod = "GET"
     request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
@@ -30,10 +30,7 @@ struct CodingPlanService {
     do {
       let (data, _) = try await URLSession.shared.data(for: request)
       let response = try JSONDecoder().decode(CodingPlanResponse.self, from: data)
-      guard let first = response.modelRemains.first else {
-        return .failure(.noData)
-      }
-      return .success(first)
+      return .success(response)
     } catch let error as DecodingError {
       return .failure(.decodingError(error))
     } catch {

@@ -10,7 +10,7 @@ import WidgetKit
 
 struct ContentView: View {
   @Environment(\.scenePhase) private var scenePhase
-  @State private var hourlyUsage: ModelRemain?
+  @State private var usageResponse: CodingPlanResponse?
   @State private var isLoading = false
   @State private var errorMessage: String?
   @State private var showingSettings = false
@@ -29,19 +29,27 @@ struct ContentView: View {
               .padding()
           }
           
-          if let usage = hourlyUsage {
+          if let response = usageResponse, let usage = response.modelRemains.first {
             UsageCardView(
               title: "5-Hour Usage",
               used: usage.currentIntervalTotalCount - usage.currentIntervalUsageCount,
               total: usage.currentIntervalTotalCount,
               remainSeconds: usage.remainsTime / 1000,
             )
-            
+
             UsageCardView(
               title: "Weekly Usage",
               used: usage.currentWeeklyTotalCount - usage.currentWeeklyUsageCount,
               total: usage.currentWeeklyTotalCount,
               remainSeconds: usage.weeklyRemainsTime / 1000,
+            )
+
+            let speechData = response.modelRemains[1]
+            UsageCardView(
+              title: "Text to Speech",
+              used: speechData.currentIntervalTotalCount - speechData.currentIntervalUsageCount,
+              total: speechData.currentIntervalTotalCount,
+              remainSeconds: speechData.remainsTime / 1000,
             )
           } else if isLoading {
             ProgressView()
@@ -91,9 +99,11 @@ struct ContentView: View {
     errorMessage = nil
     
     switch await service.fetchUsage() {
-      case .success(let data):
-        hourlyUsage = data
-        sharedStore.saveUsage(data)
+      case .success(let response):
+        usageResponse = response
+        if let first = response.modelRemains.first {
+          sharedStore.saveUsage(first)
+        }
         WidgetCenter.shared.reloadAllTimelines()
       case .failure(let error):
         switch error {
