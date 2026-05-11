@@ -1,0 +1,11 @@
+//
+//  Base.xcconfig
+//  Refill
+//
+//  Created by Jake on 2026/5/11.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+APP_NAME = Refill
