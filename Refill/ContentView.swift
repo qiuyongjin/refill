@@ -31,7 +31,7 @@ struct ContentView: View {
           
           if let response = usageResponse, let usage = response.modelRemains.first {
             UsageCardView(
-              title: "5-Hour Usage",
+              title: "Five-Hour Usage",
               used: usage.currentIntervalTotalCount - usage.currentIntervalUsageCount,
               total: usage.currentIntervalTotalCount,
               remainSeconds: usage.remainsTime / 1000,
