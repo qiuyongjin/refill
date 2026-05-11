@@ -16,7 +16,10 @@ final class UserDefaultsAPIKeyStore {
   private init() {}
   
   func get() -> String {
-    defaults.string(forKey: key) ?? ""
+    if let stored = defaults.string(forKey: key), !stored.isEmpty {
+      return stored
+    }
+    return Bundle.main.infoDictionary?["MINIMAX_API_KEY"] as? String ?? ""
   }
   
   func set(_ value: String) {
