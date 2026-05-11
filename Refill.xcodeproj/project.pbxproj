@@ -45,6 +45,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		238971B82FB1E85B009E377E /* Exceptions for "Refill" folder in "Refill" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 23E791832F8E4E0A0037B501 /* Refill */;
+		};
+		238971BE2FB1E980009E377E /* Exceptions for "Refill" folder in "RefillWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Config/Base.xcconfig,
+			);
+			target = 23D8B3ED2F8E84DA00A61B2D /* RefillWidgetExtension */;
+		};
 		23D8B4022F8E84DB00A61B2D /* Exceptions for "RefillWidget" folder in "RefillWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -65,6 +79,10 @@
 		};
 		23E791862F8E4E0A0037B501 /* Refill */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				238971B82FB1E85B009E377E /* Exceptions for "Refill" folder in "Refill" target */,
+				238971BE2FB1E980009E377E /* Exceptions for "Refill" folder in "RefillWidgetExtension" target */,
+			);
 			path = Refill;
 			sourceTree = "<group>";
 		};
@@ -444,6 +462,8 @@
 		};
 		23E791902F8E4E0B0037B501 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 23E791862F8E4E0A0037B501 /* Refill */;
+			baseConfigurationReferenceRelativePath = Config/Debug.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -453,6 +473,7 @@
 				DEVELOPMENT_TEAM = 3VSP57JFX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Refill/Info.plist;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -483,6 +504,8 @@
 		};
 		23E791912F8E4E0B0037B501 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 23E791862F8E4E0A0037B501 /* Refill */;
+			baseConfigurationReferenceRelativePath = Config/Release.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -492,6 +515,7 @@
 				DEVELOPMENT_TEAM = 3VSP57JFX5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Refill/Info.plist;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
