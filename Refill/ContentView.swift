@@ -55,6 +55,9 @@ struct ContentView: View {
             ProgressView()
               .padding()
           }
+          Text("MiniMax")
+            .font(.subheadline)
+            .foregroundStyle(.tertiary)
         }
         .padding()
       }
